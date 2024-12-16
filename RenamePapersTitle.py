@@ -17,10 +17,12 @@ def extract_title_from_pdf(pdf_path):
         # Retrieve the title from the metadata (if any)
         meta = reader.metadata
         title = meta.title
-        title =title+"_"+str(meta.subject)
-        title = title.split("doi:")[0]
-        title = re.sub(r'[\/:*?"<>|]', '', title)
-        
+        if meta.subject:
+            title = title+"_"+str(meta.subject)
+            title = title.split("doi:")[0]
+            title = re.sub(r'[\/:*?"<>|]', '', title)
+        else:
+            title = title
         if not title:  
           # If there is no title in the metadata(Just Like Physics of Fluids), try extracting from the first page
             first_page = reader.pages[1]
