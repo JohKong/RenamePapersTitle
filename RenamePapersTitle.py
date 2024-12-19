@@ -42,6 +42,8 @@ def extract_title_from_pdf(pdf_path):
         return "Untitled"
 
 
+
+
 def rename_pdfs():
     """Traverse the current directory and rename all PDF files"""
     current_dir = os.getcwd()  
@@ -49,9 +51,13 @@ def rename_pdfs():
         if filename.lower().endswith('.pdf'):
             old_pdf_path = os.path.join(current_dir, filename)
             title = extract_title_from_pdf(old_pdf_path)
+            title = re.sub(r'[\/:*?"<>|]', '', title)[:100]
             new_filename = f"{title}.pdf"
             new_pdf_path = os.path.join(current_dir, new_filename)
+            print(new_pdf_path)
+            print(old_pdf_path)
             try:
+                print(f"Renaming {old_pdf_path} to {new_pdf_path}")
                 os.rename(old_pdf_path, new_pdf_path)
                 print(f"Renamed: {filename} -> {new_filename}")
             except Exception as e:
